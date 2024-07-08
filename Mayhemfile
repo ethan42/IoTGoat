@@ -1,0 +1,9 @@
+project: ethan42/iotgoat
+target: dnsmasq
+image: ethan42/iotgoat:dnsmasq
+cmds:
+  - cmd: /usr/sbin/dnsmasq --no-daemon -k
+    network:
+      url: udp://[::1]:547
+      client: false
+      timeout: 4.0

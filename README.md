@@ -74,13 +74,15 @@ Dockerfile  bin  dev  dnsmasq_setup.sh  etc  lib  mnt  overlay  proc  rom  root 
 ./usr/sbin/dnsmasq: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-i386.so.1, no section header
 ```
 
-Perfect! Looks like we have an extracted filesystem + Dockerfile + a script to setup the dnsmasq service! Let's set up the dockerfile to run dnsmasq:
+Perfect! Looks like we have an extracted filesystem + Dockerfile + a script to setup the dnsmasq service! Let's set up the dockerfile to run dnsmasq (need to setup the configuration files and dnsmasq leases file):
 
 ```dockerfile
 FROM scratch
 COPY . /
 COPY ./etc/config/network.bak /etc/config/network
 COPY ./etc/dnsmasq.conf.bak /etc/dnsmasq.conf
+RUN mkdir -p /var/lib/misc
+COPY ./dnsmasq.leases /var/lib/misc/
 CMD /usr/sbin/dnsmasq --no-daemon -k
 ```
 
